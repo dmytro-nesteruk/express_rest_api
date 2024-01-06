@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 
 import { configService } from '@services';
 
-import { Product } from './entities';
+import { Category, Photo, Product, User } from './entities';
 
 export const db = new DataSource({
 	type: 'postgres',
@@ -12,7 +12,7 @@ export const db = new DataSource({
 	username: configService.dbUserName,
 	password: configService.dbUserPassword,
 	database: configService.dbName,
-	entities: [Product],
+	entities: [Product, Category, Photo, User],
 	synchronize: true,
 	logging: false,
 });

@@ -1,4 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+	Column,
+	Entity,
+	ManyToOne,
+	OneToMany,
+	OneToOne,
+	PrimaryGeneratedColumn,
+} from 'typeorm';
+
+import { Category } from './category';
+import { Photo } from './photo';
 
 export enum Currency {
 	'UAH' = 'UAH',
@@ -24,30 +34,35 @@ export class Product {
 	})
 	price: number;
 
-	@Column('enum', {
+	@Column({
+		type: 'enum',
 		enum: Currency,
 		default: Currency.UAH,
 	})
 	currency: Currency;
 
-	@Column('timestamp', {
+	@Column({
+		type: 'timestamp',
 		default: () => 'CURRENT_TIMESTAMP',
 	})
 	createDate: string;
 
 	@Column({
-		length: 100,
+		type: 'text',
 	})
 	title: string;
 
 	@Column({
-		length: 240,
+		type: 'text',
 	})
 	description: string;
 
-	@Column('text')
-	mainPhoto: string;
+	@OneToOne(() => Photo, (photo) => photo.product)
+	mainPhoto: Photo;
 
-	@Column('text', { array: true })
-	photos: Array<string>;
+	@OneToMany(() => Photo, (photo) => photo.product)
+	photos: Array<Photo>;
+
+	@ManyToOne(() => Category, (category) => category.products)
+	category: Category;
 }
