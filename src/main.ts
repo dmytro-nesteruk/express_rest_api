@@ -1,12 +1,8 @@
-import express from 'express';
+import { configService } from '@services';
 
-const app = express();
+import { app } from './app';
 
-const port = 3000;
-
-app.get('/', (_, res) => {
-	res.status(200).json({ msg: 'Hello world' });
-});
+const port = configService.port;
 
 app.listen(port, () => {
 	console.log(`App started at: ${port}`);

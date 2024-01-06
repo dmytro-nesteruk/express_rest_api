@@ -1,0 +1,10 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@db": ["./src/db/index.ts"],
+			"@services": ["./src/services/index.ts"]
+		}
+	}
+}
