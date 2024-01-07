@@ -1,5 +1,5 @@
 {
 	"watch": ["src"],
 	"ignore": ["src/**/*.spec.ts"],
-	"exec": "esno ./src/main.ts"
+	"exec": "esno --watch ./src/main.ts"
 }
