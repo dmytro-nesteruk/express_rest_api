@@ -4,7 +4,9 @@
 		"baseUrl": ".",
 		"paths": {
 			"@db": ["./src/db/index.ts"],
-			"@services": ["./src/services/index.ts"]
+			"@services": ["./src/services/index.ts"],
+			"@middlewares": ["./src/middlewares/index.ts"],
+			"@lib/*": ["./src/lib/*"]
 		}
 	}
 }
