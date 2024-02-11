@@ -6,5 +6,6 @@ export const ROUTER_BOOK = {
 	CATEGORY: {
 		ROOT: '/category',
 		BY_ID: '/category/:id',
+		PRODUCT: '/category/:id/product',
 	},
 };

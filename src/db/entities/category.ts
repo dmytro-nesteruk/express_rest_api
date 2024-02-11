@@ -18,6 +18,9 @@ export class Category {
 	})
 	createDate: string;
 
-	@OneToMany(() => Product, (product) => product.category)
+	@OneToMany(() => Product, (product) => product.category, {
+		onDelete: 'SET NULL',
+		cascade: ['insert', 'update'],
+	})
 	products: Product[];
 }

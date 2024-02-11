@@ -1,5 +1,4 @@
 import { OpenAPIV3 } from 'express-openapi-validator/dist/framework/types';
-import { getCategorySwagger } from 'src/app/routes/category';
 
 type TagKeys = 'category';
 
@@ -12,7 +11,9 @@ const tagsObject = {
 
 const tags = Object.values(tagsObject);
 
-export const apiSpec: OpenAPIV3.Document = {
+export const getApiSpec = (
+	paths: OpenAPIV3.PathsObject
+): OpenAPIV3.Document => ({
 	openapi: '3.0.0',
 	info: {
 		title: 'Express REST API',
@@ -24,7 +25,5 @@ export const apiSpec: OpenAPIV3.Document = {
 		},
 	],
 	tags,
-	paths: {
-		...getCategorySwagger([tagsObject.category.name]),
-	},
-};
+	paths,
+});

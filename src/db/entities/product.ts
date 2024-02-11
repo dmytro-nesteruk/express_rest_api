@@ -57,12 +57,20 @@ export class Product {
 	})
 	description: string;
 
-	@OneToOne(() => Photo, (photo) => photo.product)
+	@OneToOne(() => Photo, (photo) => photo.product, {
+		cascade: ['insert', 'update'],
+		onDelete: 'CASCADE',
+	})
 	mainPhoto: Photo;
 
-	@OneToMany(() => Photo, (photo) => photo.product)
+	@OneToMany(() => Photo, (photo) => photo.product, {
+		cascade: ['insert', 'update'],
+		onDelete: 'CASCADE',
+	})
 	photos: Array<Photo>;
 
-	@ManyToOne(() => Category, (category) => category.products)
+	@ManyToOne(() => Category, (category) => category.products, {
+		cascade: ['insert', 'update'],
+	})
 	category: Category;
 }

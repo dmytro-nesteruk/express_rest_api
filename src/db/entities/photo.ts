@@ -12,6 +12,9 @@ export class Photo {
 	})
 	url: string;
 
-	@ManyToOne(() => Product, (product) => product.photos)
+	@ManyToOne(() => Product, (product) => product.photos, {
+		onDelete: 'SET NULL',
+		cascade: ['insert', 'update'],
+	})
 	product: Product;
 }

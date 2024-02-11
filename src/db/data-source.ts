@@ -21,4 +21,4 @@ db.initialize()
 	.then(() => {
 		console.log('DB INITED');
 	})
-	.catch((error) => console.log(error));
+	.catch((error) => console.log('DB INITIALIZATION: ', error));

@@ -1,11 +1,20 @@
 import { OpenAPIV3 } from 'express-openapi-validator/dist/framework/types';
 
 import { QUERY_KEYS, ROUTER_BOOK } from '@lib/constants';
-import { IdSchema, LimitSchema, PageSchema } from '@lib/schemes';
+import {
+	IdSchema,
+	LimitSchema,
+	PageSchema,
+	allErrorResponses,
+	getRequestErrorResponses,
+	postRequestErrorResponses,
+} from '@lib/schemes';
 
 import {
 	CategorySchema,
+	CreateOrUpdateCategoryPayloadSchema,
 	GetCategiesListResponseSchema,
+	GetCategoryWithProductsResponseSchema,
 } from './category.schemes';
 
 export const getCategorySwagger = (
@@ -19,23 +28,48 @@ export const getCategorySwagger = (
 				{
 					name: QUERY_KEYS.LIMIT,
 					in: 'query',
-					schema: LimitSchema as OpenAPIV3.SchemaObject,
+					schema: LimitSchema,
 				},
 				{
 					name: QUERY_KEYS.PAGE,
 					in: 'query',
-					schema: PageSchema as OpenAPIV3.SchemaObject,
+					schema: PageSchema,
 				},
 			],
 			responses: {
 				200: {
-					description: 'Successful response',
+					description: 'Success',
 					content: {
 						'application/json': {
-							schema: GetCategiesListResponseSchema as OpenAPIV3.SchemaObject,
+							schema: GetCategiesListResponseSchema,
 						},
 					},
 				},
+				...getRequestErrorResponses,
+			},
+		},
+
+		post: {
+			tags,
+			summary: 'Create category',
+			requestBody: {
+				content: {
+					'application/json': {
+						schema: CreateOrUpdateCategoryPayloadSchema,
+						required: true,
+					},
+				},
+			},
+			responses: {
+				200: {
+					description: 'Success',
+					content: {
+						'application/json': {
+							schema: CategorySchema,
+						},
+					},
+				},
+				...postRequestErrorResponses,
 			},
 		},
 	},
@@ -48,18 +82,99 @@ export const getCategorySwagger = (
 				{
 					name: QUERY_KEYS.ID,
 					in: 'path',
-					schema: IdSchema as OpenAPIV3.SchemaObject,
+					schema: IdSchema,
+					required: true,
 				},
 			],
 			responses: {
 				200: {
-					description: 'Successful response',
+					description: 'Success',
 					content: {
 						'application/json': {
-							schema: CategorySchema as OpenAPIV3.SchemaObject,
+							schema: CategorySchema,
 						},
 					},
 				},
+				...getRequestErrorResponses,
+			},
+		},
+		put: {
+			tags,
+			summary: 'Update category by ID',
+			parameters: [
+				{
+					name: QUERY_KEYS.ID,
+					in: 'path',
+					schema: IdSchema,
+					required: true,
+				},
+			],
+			requestBody: {
+				content: {
+					'application/json': {
+						schema: CreateOrUpdateCategoryPayloadSchema,
+					},
+				},
+			},
+			responses: {
+				200: {
+					description: 'Success',
+					content: {
+						'application/json': {
+							schema: CategorySchema,
+						},
+					},
+				},
+				...allErrorResponses,
+			},
+		},
+		delete: {
+			tags,
+			summary: 'Delete category by ID',
+			parameters: [
+				{
+					name: QUERY_KEYS.ID,
+					in: 'path',
+					schema: IdSchema,
+					required: true,
+				},
+			],
+			responses: {
+				200: {
+					description: 'Success',
+					content: {
+						'application/json': {
+							schema: CategorySchema,
+						},
+					},
+				},
+				...allErrorResponses,
+			},
+		},
+	},
+
+	[`${ROUTER_BOOK.CATEGORY.ROOT}/{${QUERY_KEYS.ID}}/product`]: {
+		get: {
+			tags,
+			summary: 'Get category by ID and related products',
+			parameters: [
+				{
+					name: QUERY_KEYS.ID,
+					in: 'path',
+					schema: IdSchema,
+					required: true,
+				},
+			],
+			responses: {
+				200: {
+					description: 'Success',
+					content: {
+						'application/json': {
+							schema: GetCategoryWithProductsResponseSchema,
+						},
+					},
+				},
+				...getRequestErrorResponses,
 			},
 		},
 	},
